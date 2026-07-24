@@ -1,0 +1,55 @@
+/* Print View Styles */
+@media print {
+  @page {
+    size: A5;
+    margin: 15mm;
+  }
+  
+  body * {
+    visibility: hidden;
+  }
+  
+  .print-container, .print-container * {
+    visibility: visible;
+  }
+  
+  .print-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  /* 테이블 인쇄용 스타일 */
+  .print-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .print-table th, .print-table td {
+    border: 1px solid black !important;
+  }
+  
+  /* 리치 텍스트 인쇄 스타일 */
+  .rich-text-content * {
+    color: black !important;
+  }
+}
+
+.print-container {
+  background: white;
+  color: black;
+  min-height: 100vh;
+}

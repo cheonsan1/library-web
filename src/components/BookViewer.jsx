@@ -4,7 +4,8 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import HTMLFlipBook from 'react-pageflip';
 import { pdfjs, Document, Page as ReactPdfPage } from 'react-pdf';
-import { ArrowLeft, Maximize2 } from 'lucide-react';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { ArrowLeft, Maximize2, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
@@ -59,6 +60,31 @@ const BookViewer = () => {
   const [loadingBook, setLoadingBook] = useState(true);
   const [pdfLoadError, setPdfLoadError] = useState(null);
 
+  const toggleFullScreen = () => {
+    const doc = document.documentElement;
+    if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+      if (doc.requestFullscreen) {
+        doc.requestFullscreen().catch(err => console.error(err));
+      } else if (doc.webkitRequestFullscreen) {
+        doc.webkitRequestFullscreen();
+      } else if (doc.mozRequestFullScreen) {
+        doc.mozRequestFullScreen();
+      } else if (doc.msRequestFullscreen) {
+        doc.msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchBookInfo = async () => {
       try {
@@ -99,7 +125,11 @@ const BookViewer = () => {
           <ArrowLeft size={18} /> 도서관으로 돌아가기
         </button>
         <div style={{ fontWeight: '600', fontSize: '1.2rem', letterSpacing: '2px' }}>회의집 열람 ({id})</div>
-        <button className="btn-primary" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', padding: '8px 16px' }}>
+        <button 
+          onClick={toggleFullScreen} 
+          className="btn-primary" 
+          style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', padding: '8px 16px', cursor: 'pointer' }}
+        >
           <Maximize2 size={18} /> 전체화면
         </button>
       </header>
@@ -123,43 +153,68 @@ const BookViewer = () => {
             </p>
           </div>
         ) : (
-          <Document
-            file={pdfUrl}
-            onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={onDocumentLoadError}
-          loading={<div style={{ color: 'white', fontSize: '1.2rem' }}>PDF를 불러오는 중입니다... ({pdfUrl.substring(0, 30)}...)</div>}
-          error={
-            <div style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '3rem', background: 'var(--glass-bg)', borderRadius: '16px', border: '1px solid var(--glass-border)' }}>
-              <h3>PDF 파일을 찾을 수 없습니다.</h3>
-              <p style={{ marginTop: '1rem', lineHeight: '1.5' }}>
-                아직 <b>{id}</b>에 해당하는 PDF 파일이 업로드되지 않았거나,<br/>
-                테스트를 위한 <code>public/sample.pdf</code> 파일이 없습니다.
-              </p>
-            </div>
-          }
-        >
-          {numPages && (
-            <div style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
-              <HTMLFlipBook 
-                width={400} 
-                height={565} 
-                size="stretch"
-                minWidth={315}
-                maxWidth={1000}
-                minHeight={400}
-                maxHeight={1533}
-                maxShadowOpacity={0.5}
-                showCover={true}
-                mobileScrollSupport={true}
-                className="flipbook"
-              >
-                {Array.from(new Array(numPages), (el, index) => (
-                  <Page key={`page_${index + 1}`} pageNumber={index + 1} />
-                ))}
-              </HTMLFlipBook>
-            </div>
-          )}
-        </Document>
+          <TransformWrapper
+            initialScale={1}
+            minScale={0.5}
+            maxScale={4}
+            centerOnInit={true}
+            wheel={{ step: 0.1 }}
+          >
+            {({ zoomIn, zoomOut, resetTransform }) => (
+              <React.Fragment>
+                <div style={{ position: 'absolute', bottom: '2rem', right: '2rem', display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 10 }}>
+                  <button onClick={() => zoomIn()} className="btn-primary" style={{ padding: '12px', borderRadius: '50%', boxShadow: '0 4px 6px rgba(0,0,0,0.3)', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.2)' }} title="확대">
+                    <ZoomIn size={24} />
+                  </button>
+                  <button onClick={() => zoomOut()} className="btn-primary" style={{ padding: '12px', borderRadius: '50%', boxShadow: '0 4px 6px rgba(0,0,0,0.3)', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.2)' }} title="축소">
+                    <ZoomOut size={24} />
+                  </button>
+                  <button onClick={() => resetTransform()} className="btn-primary" style={{ padding: '12px', borderRadius: '50%', boxShadow: '0 4px 6px rgba(0,0,0,0.3)', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.2)' }} title="원래 크기">
+                    <RotateCcw size={24} />
+                  </button>
+                </div>
+                <TransformComponent wrapperStyle={{ width: '100%', height: '100%' }} contentStyle={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <Document
+                    file={pdfUrl}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                    onLoadError={onDocumentLoadError}
+                    loading={<div style={{ color: 'white', fontSize: '1.2rem' }}>PDF를 불러오는 중입니다... ({pdfUrl.substring(0, 30)}...)</div>}
+                    error={
+                      <div style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '3rem', background: 'var(--glass-bg)', borderRadius: '16px', border: '1px solid var(--glass-border)' }}>
+                        <h3>PDF 파일을 찾을 수 없습니다.</h3>
+                        <p style={{ marginTop: '1rem', lineHeight: '1.5' }}>
+                          아직 <b>{id}</b>에 해당하는 PDF 파일이 업로드되지 않았거나,<br/>
+                          테스트를 위한 <code>public/sample.pdf</code> 파일이 없습니다.
+                        </p>
+                      </div>
+                    }
+                  >
+                    {numPages && (
+                      <div style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
+                        <HTMLFlipBook 
+                          width={400} 
+                          height={565} 
+                          size="stretch"
+                          minWidth={315}
+                          maxWidth={1000}
+                          minHeight={400}
+                          maxHeight={1533}
+                          maxShadowOpacity={0.5}
+                          showCover={true}
+                          mobileScrollSupport={true}
+                          className="flipbook"
+                        >
+                          {Array.from(new Array(numPages), (el, index) => (
+                            <Page key={`page_${index + 1}`} pageNumber={index + 1} />
+                          ))}
+                        </HTMLFlipBook>
+                      </div>
+                    )}
+                  </Document>
+                </TransformComponent>
+              </React.Fragment>
+            )}
+          </TransformWrapper>
         )}
       </div>
     </div>

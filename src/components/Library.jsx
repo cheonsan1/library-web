@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
+
 import { collection, query, orderBy, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { auth, db, storage } from '../firebase';
-import { Library as LibraryIcon, LogOut, BookOpen, Plus, Trash2, Settings } from 'lucide-react';
+import { Library as LibraryIcon, User, BookOpen, Plus, Trash2, Settings } from 'lucide-react';
 import UploadModal from './UploadModal';
-
+import Header from './Header';
 const Library = ({ userRole }) => {
   const navigate = useNavigate();
   const [books, setBooks] = useState([]);
@@ -70,36 +70,7 @@ const Library = ({ userRole }) => {
 
   return (
     <div className="page-container">
-      <header className="library-header">
-        <div className="header-title-container">
-          <img src="/logo.png" alt="동인천노회 로고" style={{ height: '40px', objectFit: 'contain' }} />
-          <h1 className="header-title-text">동인천노회 촬요 도서관</h1>
-        </div>
-        <div className="header-actions">
-          {userRole === 'admin' && (
-            <button 
-              onClick={() => navigate('/admin')} 
-              className="btn-primary action-btn-outline" 
-            >
-              <Settings size={16} /> <span className="action-text">관리자 설정</span>
-            </button>
-          )}
-          {userRole === 'admin' && (
-            <button 
-              onClick={() => setShowUpload(true)} 
-              className="btn-primary action-btn-solid" 
-            >
-              <Plus size={16} /> <span className="action-text">새 촬요 업로드</span>
-            </button>
-          )}
-          <button 
-            onClick={() => signOut(auth)} 
-            className="btn-primary action-btn-logout" 
-          >
-            <LogOut size={16} /> <span className="action-text">로그아웃</span>
-          </button>
-        </div>
-      </header>
+      <Header userRole={userRole} onUploadClick={() => setShowUpload(true)} />
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-secondary)' }}>책을 불러오는 중입니다...</div>

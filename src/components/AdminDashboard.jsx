@@ -3,8 +3,9 @@ import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, XCircle, Shield, User } from 'lucide-react';
+import Header from './Header';
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ userRole }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -43,17 +44,19 @@ const AdminDashboard = () => {
 
   return (
     <div className="page-container">
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <Header userRole={userRole} />
+      
+      <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
           <h1 style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Shield size={28} color="#3b82f6" /> 관리자 설정
+            <Shield size={28} color="#3b82f6" /> 관리자 대시보드
           </h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>도서관 회원 가입 승인 및 권한을 관리합니다.</p>
         </div>
-        <button className="btn-primary" onClick={() => navigate('/')}>
-          <ArrowLeft size={18} /> 도서관으로 돌아가기
+        <button className="btn-primary action-btn-solid" onClick={() => navigate('/admin/editor')}>
+          새 촬요 편집기 열기 (CMS)
         </button>
-      </header>
+      </div>
 
       <div className="glass-panel animate-fade-in" style={{ padding: '2rem' }}>
         {loading ? (
@@ -90,16 +93,33 @@ const AdminDashboard = () => {
                         <span style={{ background: 'rgba(245, 158, 11, 0.2)', color: '#fbbf24', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: '600' }}>가입 대기</span>
                       )}
                     </td>
-                    <td style={{ padding: '1rem', textAlign: 'right' }}>
-                      {u.role === 'admin' ? (
-                        <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>변경 불가</span>
-                      ) : u.role === 'approved' ? (
+                    <td style={{ padding: '1rem', textAlign: 'right', display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                      {u.email === 'bagjaedeog@gmail.com' ? (
+                        <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', padding: '6px' }}>영구 관리자</span>
+                      ) : u.role === 'admin' ? (
                         <button 
-                          onClick={() => handleUpdateRole(u.id, 'pending')}
+                          onClick={() => handleUpdateRole(u.id, 'approved')}
                           style={{ background: 'transparent', border: '1px solid rgba(239, 68, 68, 0.5)', color: '#ef4444', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+                          title="일반 정회원으로 강등"
                         >
-                          <XCircle size={14} /> 권한 회수
+                          <XCircle size={14} /> 관리자 해임
                         </button>
+                      ) : u.role === 'approved' ? (
+                        <>
+                          <button 
+                            onClick={() => handleUpdateRole(u.id, 'admin')}
+                            style={{ background: '#3b82f6', border: 'none', color: 'white', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+                            title="관리자로 임명"
+                          >
+                            <Shield size={14} /> 관리자 임명
+                          </button>
+                          <button 
+                            onClick={() => handleUpdateRole(u.id, 'pending')}
+                            style={{ background: 'transparent', border: '1px solid rgba(239, 68, 68, 0.5)', color: '#ef4444', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+                          >
+                            <XCircle size={14} /> 권한 회수
+                          </button>
+                        </>
                       ) : (
                         <button 
                           onClick={() => handleUpdateRole(u.id, 'approved')}

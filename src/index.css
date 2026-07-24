@@ -197,3 +197,36 @@ h1, h2, h3 {
     padding: 10px 14px;
   }
 }
+
+/* ReactQuill overrides */
+.ql-container {
+  flex: 1;
+  overflow-y: auto;
+}
+.ql-editor {
+  min-height: 200px;
+}
+
+/* Mobile Table Overflow */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 1rem;
+  }
+  
+  .header-actions {
+    flex-wrap: wrap;
+  }
+  
+  .header-actions .btn-primary {
+    flex: 1 1 calc(50% - 12px);
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+}
+
