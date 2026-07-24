@@ -12,8 +12,8 @@ const SECTIONS = [
 ];
 
 // 에디터(텍스트) 탭과 표(테이블) 탭 구분
-const TEXT_HEAVY_TABS = [0, 1, 2, 6, 9, 12];
-const TABLE_HEAVY_TABS = [3, 4, 5, 7, 8, 10, 11, 13];
+const TEXT_HEAVY_TABS = [0, 1, 2, 3, 6, 9, 11, 12];
+const TABLE_HEAVY_TABS = [4, 5, 7, 8, 10, 13];
 
 const PrintView = () => {
   const { year, season } = useParams();
@@ -113,7 +113,7 @@ const PrintView = () => {
                 <table className="print-table" style={{ width: '100%', borderCollapse: 'collapse', color: 'black', fontSize: '0.9rem' }}>
                   <thead>
                     <tr>
-                      {sectionData.columns.map((col, cIdx) => (
+                      {Array.isArray(sectionData.columns) && sectionData.columns.map((col, cIdx) => (
                         <th key={cIdx} style={{ border: '1px solid black', padding: '8px', background: '#f1f1f1', textAlign: 'center', width: sectionData.colWidths?.[cIdx] || 'auto' }}>
                           {col}
                         </th>
@@ -121,8 +121,9 @@ const PrintView = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {sectionData.rows.map((row, rIdx) => {
+                    {Array.isArray(sectionData.rows) && sectionData.rows.map((row, rIdx) => {
                       const cells = row.cells ? row.cells : row;
+                      if (!Array.isArray(cells)) return null;
                       return (
                         <tr key={rIdx}>
                           {cells.map((cell, cIdx) => (

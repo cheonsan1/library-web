@@ -14,9 +14,8 @@ const SECTIONS = [
 ]; // 14개 섹션을 직관적으로 정리
 
 // 에디터가 필요한 텍스트 중심 탭 인덱스 (11번 추가)
-const TEXT_HEAVY_TABS = [0, 1, 2, 6, 9, 11, 12];
-// 동적 표 입력 폼이 필요한 탭 인덱스 (11번 제거)
-const TABLE_HEAVY_TABS = [3, 4, 5, 7, 8, 10, 13];
+const TEXT_HEAVY_TABS = [0, 1, 2, 3, 6, 9, 11, 12];
+const TABLE_HEAVY_TABS = [4, 5, 7, 8, 10, 13];
 
 const BookEditor = ({ userRole }) => {
   const navigate = useNavigate();
