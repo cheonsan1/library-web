@@ -144,20 +144,20 @@ function MyPage({ userRole }) {
     maxWidth: '400px',
     marginTop: '5px',
     borderRadius: '4px',
-    border: '1px solid #555',
-    backgroundColor: '#222',
-    color: '#fff',
+    border: '1px solid #cbd5e1',
+    backgroundColor: '#fff',
+    color: 'var(--text-primary)',
     boxSizing: 'border-box'
   };
 
   return (
-    <div className="page-container" style={{ padding: '20px', fontFamily: 'sans-serif', color: '#eee' }}>
+    <div className="page-container" style={{ padding: '20px', fontFamily: 'sans-serif', color: 'var(--text-primary)' }}>
       <Header userRole={userRole} />
       
       {isNewUser ? (
         <>
-          <h2 style={{ color: '#60a5fa' }}>신규 회원 등록</h2>
-          <p style={{ fontSize: '0.9em', color: '#aaa' }}>
+          <h2 style={{ color: 'var(--primary-color)' }}>신규 회원 등록</h2>
+          <p style={{ fontSize: '0.9em', color: 'var(--text-secondary)' }}>
             등록된 정보가 없습니다. 본인의 소속을 선택하고 정보를 입력한 뒤 가입해주세요.<br/>
             (입력하신 정보는 선택하신 소속 탭으로 자동 저장됩니다.)
           </p>
@@ -165,22 +165,22 @@ function MyPage({ userRole }) {
       ) : (
         <>
           <h2>내 정보 관리</h2>
-          <p style={{ fontSize: '0.9em', color: '#aaa' }}>수정하고자 하는 항목을 변경한 후 저장 버튼을 눌러주세요.</p>
+          <p style={{ fontSize: '0.9em', color: 'var(--text-secondary)' }}>수정하고자 하는 항목을 변경한 후 저장 버튼을 눌러주세요.</p>
         </>
       )}
 
-      <div style={{ padding: '20px', borderRadius: '8px', backgroundColor: '#1e1e1e', marginTop: '20px' }}>
+      <div className="glass-panel" style={{ padding: '20px', marginTop: '20px' }}>
 
         <div style={{ marginBottom: '15px' }}>
-          <label style={{ color: '#aaa' }}><strong>접속 이메일 (수정 불가):</strong></label><br />
-          <div style={{ marginTop: '5px', padding: '10px', backgroundColor: '#111', borderRadius: '4px', maxWidth: '400px' }}>
+          <label style={{ color: 'var(--text-secondary)' }}><strong>접속 이메일 (수정 불가):</strong></label><br />
+          <div style={{ marginTop: '5px', padding: '10px', backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '4px', maxWidth: '400px', color: 'var(--text-primary)' }}>
             {currentUserEmail}
           </div>
         </div>
 
         {isNewUser && (
-          <div style={{ marginBottom: '15px', padding: '15px', backgroundColor: 'rgba(59, 130, 246, 0.1)', border: '1px solid #3b82f6', borderRadius: '8px', maxWidth: '400px' }}>
-            <label style={{ color: '#60a5fa' }}><strong>* 소속 분류 (어느 시트에 저장할지 선택):</strong></label><br />
+          <div style={{ marginBottom: '15px', padding: '15px', backgroundColor: 'rgba(14, 165, 233, 0.1)', border: '1px solid var(--primary-color)', borderRadius: '8px', maxWidth: '400px' }}>
+            <label style={{ color: 'var(--primary-color)' }}><strong>* 소속 분류 (어느 시트에 저장할지 선택):</strong></label><br />
             <select 
               value={selectedTab} 
               onChange={(e) => setSelectedTab(e.target.value)} 

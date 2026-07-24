@@ -99,11 +99,11 @@ const Library = ({ userRole }) => {
             onClick={() => navigate(`/book/${book.id}`)}
             onMouseOver={(e) => {
               e.currentTarget.style.transform = 'translateY(-8px)';
-              e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.4)';
+              e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.1)';
             }}
             onMouseOut={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 8px 32px 0 rgba(0, 0, 0, 0.3)';
+              e.currentTarget.style.boxShadow = '0 8px 32px 0 rgba(0, 0, 0, 0.05)';
             }}
           >
             {/* Book Cover Concept */}
@@ -114,7 +114,8 @@ const Library = ({ userRole }) => {
               display: 'flex', 
               flexDirection: 'column', 
               padding: '1.5rem', 
-              borderLeft: '12px solid rgba(0,0,0,0.4)' 
+              borderLeft: '12px solid rgba(0,0,0,0.1)',
+              color: 'white'
             }}>
               {/* 썸네일 이미지가 있을 때 글씨가 잘 보이도록 어두운 오버레이 추가 */}
               {book.thumbnailUrl && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.3)' }} />}
@@ -133,7 +134,7 @@ const Library = ({ userRole }) => {
             </div>
             
             {/* Book Meta */}
-            <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.02)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ padding: '1rem', background: 'rgba(0,0,0,0.02)', borderTop: '1px solid var(--glass-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <BookOpen size={16} color="var(--primary-color)" />
                 <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>PDF 열람</span>

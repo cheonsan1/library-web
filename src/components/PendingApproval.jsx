@@ -17,7 +17,7 @@ const PendingApproval = ({ user, bypassApproval }) => {
           <strong>{user?.displayName}</strong>님의 계정은<br/>현재 관리자 승인 대기 상태입니다.
         </p>
         <div style={{ background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.2)', padding: '1rem', borderRadius: '8px', marginBottom: '2.5rem' }}>
-          <p style={{ fontSize: '0.9rem', color: '#fcd34d', margin: 0, lineHeight: '1.5' }}>
+          <p style={{ fontSize: '0.9rem', color: '#b45309', margin: 0, lineHeight: '1.5' }}>
             개인정보 보호를 위해 관리자의 승인이 완료된 정회원만 도서관을 이용하실 수 있습니다. 승인 처리가 완료될 때까지 잠시만 기다려주세요.
           </p>
         </div>
@@ -25,14 +25,14 @@ const PendingApproval = ({ user, bypassApproval }) => {
         <button 
           onClick={() => signOut(auth)} 
           className="btn-primary" 
-          style={{ width: '100%', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'var(--text-primary)' }}
+          style={{ width: '100%', background: 'transparent', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--text-primary)' }}
           onMouseOver={(e) => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
-            e.currentTarget.style.border = '1px solid rgba(255,255,255,0.4)';
+            e.currentTarget.style.background = 'rgba(0,0,0,0.05)';
+            e.currentTarget.style.border = '1px solid rgba(0,0,0,0.2)';
           }}
           onMouseOut={(e) => {
             e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.border = '1px solid rgba(255,255,255,0.2)';
+            e.currentTarget.style.border = '1px solid rgba(0,0,0,0.1)';
           }}
         >
           <LogOut size={18} />

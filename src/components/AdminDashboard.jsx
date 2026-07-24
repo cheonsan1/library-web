@@ -67,7 +67,7 @@ const AdminDashboard = ({ userRole }) => {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', color: 'var(--text-secondary)' }}>
+                <tr style={{ borderBottom: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>
                   <th style={{ padding: '1rem' }}>이름</th>
                   <th style={{ padding: '1rem' }}>이메일</th>
                   <th style={{ padding: '1rem' }}>상태</th>
@@ -76,9 +76,9 @@ const AdminDashboard = ({ userRole }) => {
               </thead>
               <tbody>
                 {users.map(u => (
-                  <tr key={u.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                  <tr key={u.id} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
                     <td style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(0,0,0,0.05)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <User size={16} />
                       </div>
                       {u.name}
@@ -86,11 +86,11 @@ const AdminDashboard = ({ userRole }) => {
                     <td style={{ padding: '1rem', color: 'var(--text-secondary)' }}>{u.email}</td>
                     <td style={{ padding: '1rem' }}>
                       {u.role === 'admin' ? (
-                        <span style={{ background: 'rgba(59, 130, 246, 0.2)', color: '#60a5fa', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: '600' }}>최고 관리자</span>
+                        <span style={{ background: 'rgba(14, 165, 233, 0.1)', color: 'var(--primary-color)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: '600' }}>최고 관리자</span>
                       ) : u.role === 'approved' ? (
-                        <span style={{ background: 'rgba(16, 185, 129, 0.2)', color: '#34d399', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: '600' }}>정회원 (승인됨)</span>
+                        <span style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: '600' }}>정회원 (승인됨)</span>
                       ) : (
-                        <span style={{ background: 'rgba(245, 158, 11, 0.2)', color: '#fbbf24', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: '600' }}>가입 대기</span>
+                        <span style={{ background: 'rgba(245, 158, 11, 0.1)', color: '#d97706', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: '600' }}>가입 대기</span>
                       )}
                     </td>
                     <td style={{ padding: '1rem', textAlign: 'right', display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>

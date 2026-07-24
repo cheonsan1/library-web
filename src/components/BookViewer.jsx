@@ -115,12 +115,12 @@ const BookViewer = () => {
 
   return (
     <ErrorBoundary>
-      <div style={{ width: '100vw', height: '100vh', background: 'radial-gradient(circle at center, #334155, #0f172a)', display: 'flex', flexDirection: 'column' }}>
-      <header style={{ padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', background: 'rgba(0,0,0,0.6)', color: 'white', alignItems: 'center', backdropFilter: 'blur(10px)' }}>
+      <div style={{ width: '100vw', height: '100vh', background: 'radial-gradient(circle at center, #f1f5f9, #cbd5e1)', display: 'flex', flexDirection: 'column' }}>
+      <header style={{ padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.7)', color: 'var(--text-primary)', alignItems: 'center', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
         <button 
           onClick={() => navigate('/')}
           className="btn-primary"
-          style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', padding: '8px 16px' }}
+          style={{ background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--text-primary)', padding: '8px 16px' }}
         >
           <ArrowLeft size={18} /> 도서관으로 돌아가기
         </button>
@@ -128,7 +128,7 @@ const BookViewer = () => {
         <button 
           onClick={toggleFullScreen} 
           className="btn-primary" 
-          style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', padding: '8px 16px', cursor: 'pointer' }}
+          style={{ background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--text-primary)', padding: '8px 16px', cursor: 'pointer' }}
         >
           <Maximize2 size={18} /> 전체화면
         </button>
@@ -136,7 +136,7 @@ const BookViewer = () => {
       
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', padding: '2rem' }}>
         {loadingBook ? (
-          <div style={{ color: 'white', fontSize: '1.2rem' }}>책 정보를 불러오는 중입니다...</div>
+          <div style={{ color: 'var(--text-primary)', fontSize: '1.2rem' }}>책 정보를 불러오는 중입니다...</div>
         ) : !pdfUrl ? (
           <div style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '3rem', background: 'var(--glass-bg)', borderRadius: '16px', border: '1px solid var(--glass-border)' }}>
             <h3>PDF 파일을 찾을 수 없습니다.</h3>
@@ -163,13 +163,13 @@ const BookViewer = () => {
             {({ zoomIn, zoomOut, resetTransform }) => (
               <React.Fragment>
                 <div style={{ position: 'absolute', bottom: '2rem', right: '2rem', display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 10 }}>
-                  <button onClick={() => zoomIn()} className="btn-primary" style={{ padding: '12px', borderRadius: '50%', boxShadow: '0 4px 6px rgba(0,0,0,0.3)', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.2)' }} title="확대">
+                  <button onClick={() => zoomIn()} className="btn-primary" style={{ padding: '12px', borderRadius: '50%', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(5px)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--text-primary)' }} title="확대">
                     <ZoomIn size={24} />
                   </button>
-                  <button onClick={() => zoomOut()} className="btn-primary" style={{ padding: '12px', borderRadius: '50%', boxShadow: '0 4px 6px rgba(0,0,0,0.3)', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.2)' }} title="축소">
+                  <button onClick={() => zoomOut()} className="btn-primary" style={{ padding: '12px', borderRadius: '50%', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(5px)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--text-primary)' }} title="축소">
                     <ZoomOut size={24} />
                   </button>
-                  <button onClick={() => resetTransform()} className="btn-primary" style={{ padding: '12px', borderRadius: '50%', boxShadow: '0 4px 6px rgba(0,0,0,0.3)', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.2)' }} title="원래 크기">
+                  <button onClick={() => resetTransform()} className="btn-primary" style={{ padding: '12px', borderRadius: '50%', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(5px)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--text-primary)' }} title="원래 크기">
                     <RotateCcw size={24} />
                   </button>
                 </div>
@@ -178,7 +178,7 @@ const BookViewer = () => {
                     file={pdfUrl}
                     onLoadSuccess={onDocumentLoadSuccess}
                     onLoadError={onDocumentLoadError}
-                    loading={<div style={{ color: 'white', fontSize: '1.2rem' }}>PDF를 불러오는 중입니다... ({pdfUrl.substring(0, 30)}...)</div>}
+                    loading={<div style={{ color: 'var(--text-primary)', fontSize: '1.2rem' }}>PDF를 불러오는 중입니다... ({pdfUrl.substring(0, 30)}...)</div>}
                     error={
                       <div style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '3rem', background: 'var(--glass-bg)', borderRadius: '16px', border: '1px solid var(--glass-border)' }}>
                         <h3>PDF 파일을 찾을 수 없습니다.</h3>

@@ -267,20 +267,20 @@ const BookEditor = ({ userRole }) => {
 
       <div className="glass-panel animate-fade-in" style={{ padding: '1.5rem', display: 'flex', gap: '20px', flex: 1 }}>
         {/* 사이드바 (14개 항목 탭) */}
-        <div style={{ width: '250px', display: 'flex', flexDirection: 'column', gap: '1rem', borderRight: '1px solid rgba(255,255,255,0.1)', paddingRight: '1rem' }}>
-          <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1rem', borderRadius: '8px' }}>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: '#94a3b8' }}>발간 회기 선택</label>
-            <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ width: '250px', display: 'flex', flexDirection: 'column', gap: '1rem', borderRight: '1px solid var(--glass-border)', paddingRight: '1rem' }}>
+          <div style={{ background: 'rgba(0,0,0,0.02)', padding: '1rem', borderRadius: '8px' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>발간 회기 선택</label>
+            <div style={{ display: 'flex', gap: '8px' }}>
               <input 
                 type="number" 
                 value={year} 
                 onChange={(e) => setYear(e.target.value)}
-                style={{ width: '80px', padding: '6px', borderRadius: '4px', background: '#1e293b', border: '1px solid #334155', color: 'white' }} 
+                style={{ width: '80px', padding: '6px', borderRadius: '4px', background: 'white', border: '1px solid #cbd5e1', color: 'var(--text-primary)' }} 
               />
               <select 
                 value={season} 
                 onChange={(e) => setSeason(e.target.value)}
-                style={{ flex: 1, padding: '6px', borderRadius: '4px', background: '#1e293b', border: '1px solid #334155', color: 'white' }}
+                style={{ flex: 1, padding: '6px', borderRadius: '4px', background: 'white', border: '1px solid #cbd5e1', color: 'var(--text-primary)' }}
               >
                 <option value="봄">봄 (4월)</option>
                 <option value="가을">가을 (10월)</option>
@@ -290,7 +290,7 @@ const BookEditor = ({ userRole }) => {
             {/* 직전 회기 불러오기 버튼 추가 */}
             <button 
               onClick={loadPreviousData}
-              style={{ marginTop: '10px', width: '100%', padding: '8px', background: '#334155', border: '1px solid #475569', color: '#cbd5e1', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}
+              style={{ marginTop: '10px', width: '100%', padding: '8px', background: '#f1f5f9', border: '1px solid #cbd5e1', color: 'var(--text-primary)', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}
             >
               이전 회기 불러오기 (복사)
             </button>
@@ -304,13 +304,13 @@ const BookEditor = ({ userRole }) => {
                   key={idx}
                   onClick={() => setActiveTab(idx)}
                   style={{
-                    textAlign: 'left',
-                    padding: '10px 12px',
-                    borderRadius: '6px',
-                    background: activeTab === idx ? 'rgba(16, 185, 129, 0.2)' : 'transparent',
-                    color: activeTab === idx ? '#34d399' : '#cbd5e1',
-                    border: activeTab === idx ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid transparent',
+                    padding: '12px 16px',
+                    borderRadius: '8px',
                     cursor: 'pointer',
+                    background: activeTab === idx ? 'rgba(14, 165, 233, 0.1)' : 'transparent',
+                    color: activeTab === idx ? 'var(--primary-color)' : 'var(--text-secondary)',
+                    border: activeTab === idx ? '1px solid rgba(14, 165, 233, 0.3)' : '1px solid transparent',
+                    fontWeight: activeTab === idx ? '600' : '400',
                     transition: 'all 0.2s',
                     fontSize: '0.9rem',
                     display: 'flex',
@@ -328,7 +328,7 @@ const BookEditor = ({ userRole }) => {
         {/* 메인 편집 영역 */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h2 style={{ fontSize: '1.2rem', color: '#f8fafc' }}>{SECTIONS[activeTab]} 작성</h2>
+            <h2 style={{ fontSize: '1.2rem', color: 'var(--text-primary)' }}>{SECTIONS[activeTab]} 작성</h2>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               {activeTab === 11 && (
                 <button 
