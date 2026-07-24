@@ -193,14 +193,24 @@ const BookEditor = ({ userRole }) => {
               Object.keys(sichalGroups[sichal]).forEach(church => {
                 const members = sichalGroups[sichal][church];
                 const first = members[0] || {};
+                const zipcode = first['우편번호'] ? `(${first['우편번호']}) ` : '';
                 const address = first['주소'] || '';
                 const allNames = members.map(m => m['이름']).filter(Boolean).join(', ');
-                const phones = members.map(m => m['전화번호'] || m['핸드폰번호']).filter(Boolean).join(', ');
+                
+                const contactsInfo = members.map(m => {
+                  let info = [];
+                  if (m['전화번호']) info.push(`☎ ${m['전화번호']}`);
+                  if (m['핸드폰번호']) info.push(`📱 ${m['핸드폰번호']}` + (members.length > 1 && m['이름'] ? `(${m['이름']})` : ''));
+                  return info.join(' / ');
+                }).filter(Boolean).join('<br/>');
                 
                 htmlContent += `<tr>
                   <td style="border: 1px solid #cbd5e1; padding: 8px; text-align: center;"><strong>${church}</strong></td>
                   <td style="border: 1px solid #cbd5e1; padding: 8px; text-align: center;">${allNames}</td>
-                  <td style="border: 1px solid #cbd5e1; padding: 8px;">${address}<br/>${phones}</td>
+                  <td style="border: 1px solid #cbd5e1; padding: 8px; line-height: 1.5;">
+                    <div>${zipcode}${address}</div>
+                    <div style="color: #475569; font-size: 0.95em;">${contactsInfo}</div>
+                  </td>
                 </tr>`;
               });
               htmlContent += `</tbody></table>`;
@@ -216,13 +226,22 @@ const BookEditor = ({ userRole }) => {
             
             contacts.forEach(c => {
               const name = c['이름'] || '';
-              const phone = [c['핸드폰번호'], c['전화번호']].filter(Boolean).join(' / ');
+              const zipcode = c['우편번호'] ? `(${c['우편번호']}) ` : '';
               const address = c['주소'] || '';
-              const info = [phone, address].filter(Boolean).join('<br/>');
+              
+              let phoneArr = [];
+              if (c['전화번호']) phoneArr.push(`☎ ${c['전화번호']}`);
+              if (c['핸드폰번호']) phoneArr.push(`📱 ${c['핸드폰번호']}`);
+              const phoneStr = phoneArr.join(' / ');
+              
+              const info = [
+                phoneStr ? `<div style="color: #475569; font-size: 0.95em; margin-bottom: 4px;">${phoneStr}</div>` : '',
+                (zipcode || address) ? `<div>${zipcode}${address}</div>` : ''
+              ].filter(Boolean).join('');
               
               htmlContent += `<tr>
                 <td style="border: 1px solid #cbd5e1; padding: 8px; text-align: center;"><strong>${name}</strong></td>
-                <td style="border: 1px solid #cbd5e1; padding: 8px;">${info}</td>
+                <td style="border: 1px solid #cbd5e1; padding: 8px; line-height: 1.5;">${info}</td>
               </tr>`;
             });
             htmlContent += `</tbody></table>`;
