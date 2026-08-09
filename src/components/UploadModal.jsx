@@ -10,6 +10,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 const UploadModal = ({ onClose, onUploadSuccess }) => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [season, setSeason] = useState('가을');
+  const [docType, setDocType] = useState('촬요');
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -26,7 +27,8 @@ const UploadModal = ({ onClose, onUploadSuccess }) => {
     if (!file) return alert('PDF 파일을 선택해주세요.');
     if (!year) return alert('연도를 입력해주세요.');
 
-    const bookId = `${year}-${season === '봄' ? '04' : '10'}`;
+    const docTypeSlug = docType === '촬요' ? 'summary' : 'program';
+    const bookId = `${year}-${season === '봄' ? '04' : '10'}-${docTypeSlug}`;
     const storageRef = ref(storage, `books/${bookId}.pdf`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -88,7 +90,8 @@ const UploadModal = ({ onClose, onUploadSuccess }) => {
             id: bookId,
             year: Number(year),
             season,
-            title: `${year}년 ${season === '봄' ? '4월 봄' : '10월 가을'} 정기노회 촬요`,
+            docType,
+            title: `${year}년 ${season === '봄' ? '4월 봄' : '10월 가을'} 정기노회 ${docType}`,
             pdfUrl: downloadURL,
             thumbnailUrl: thumbnailUrl, // 추출된 썸네일 URL (실패 시 null)
             coverColor: season === '봄' ? '#0f766e' : '#1e3a8a',
@@ -143,6 +146,17 @@ const UploadModal = ({ onClose, onUploadSuccess }) => {
             >
               <option value="봄">봄 (4월)</option>
               <option value="가을">가을 (10월)</option>
+            </select>
+          </div>
+          <div style={{ flex: 1 }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>문서 종류</label>
+            <select 
+              value={docType} 
+              onChange={e => setDocType(e.target.value)}
+              style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--glass-border)', background: '#0f172a', color: 'white' }}
+            >
+              <option value="촬요">촬요</option>
+              <option value="순서지">순서지</option>
             </select>
           </div>
         </div>
